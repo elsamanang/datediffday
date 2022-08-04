@@ -1,0 +1,66 @@
+
+<br />
+<div>
+    <input id="debut" placeholder="date de debut" type="date" />
+    <br><br />
+    <input id="fin" placeholder="date de fin" type="date" />
+    <br><br />
+    <button onclick="calul();">calculer</button>
+    <br /><br />
+    <h3 id="rep"></h3>
+    <h2 id="rep1"></h2>
+</div>
+<script>
+    function calul() {
+        var debut = document.getElementById("debut").value.split("-");
+        var fin = document.getElementById("fin").value.split("-");
+        var diff = 0;
+        var mois = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        if(document.getElementById("debut").value > document.getElementById("fin").value) {
+            document.getElementById("rep").innerHTML = "les dates ne sont pas valides";
+            return
+        }
+        
+        if (fin[0] > debut[0]) {
+            for (i=debut[0]; i < fin[0]; i++) {
+                if (i%4 == 0 && i%100 != 0 || i%400 ==0) {
+                    mois[1] = 29;
+                } else {
+                    mois[1] = 28;
+                }
+
+                if(i == debut[0]) {
+                    for (m=debut[1]-1; m < 12; m++) {
+                        diff += mois[m];
+                    }
+                }
+                else {
+                    for (m=0; m < 12; m++) {
+                        diff += mois[m];
+                    }
+                }
+            }
+            for (m=0; m < fin[1]-1; m++) {
+                diff += mois[m];
+            }
+
+        } 
+        else {
+            if (fin[1] > debut[1]) {
+                for (i=debut[1]-1; i < fin[1]-1; i++) {
+                    diff += mois[i];
+                }
+            }
+        }
+
+        if (fin[2] >= debut[2]) {
+            let ajout = fin[2] - debut[2];
+            diff += ajout;
+        } else {
+            let ajout = debut[2] - fin[2];
+            diff -= ajout;
+        }
+
+        document.getElementById("rep").innerHTML = `La difference est de ${diff} jour(s)`;
+    }
+</script>
